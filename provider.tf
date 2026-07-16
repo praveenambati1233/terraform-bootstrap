@@ -27,9 +27,13 @@ terraform {
       version = "~> 4.60"
     }
   }
-  #   backend "azurerm" {
-
-  #   }
+  backend "azurerm" {
+  resource_group_name  = "rg-ccpt-prd-devops-01"
+  storage_account_name = "stccptprdintrtfs"
+  container_name       = "devopsbootstrap"
+  key                  = "terraform.tfstate"
+  use_azuread_auth = true
+  }
 
 }
 

@@ -19,7 +19,12 @@ resource "azurerm_storage_account" "devopssa" {
   network_rules {
     default_action = "Deny"
     bypass         = ["AzureServices"]
+     ip_rules = [
+      "137.132.202.32"
+    ]
   }
+
+  
   tags = data.azurerm_subscription.current.tags
 }
 
@@ -39,6 +44,18 @@ resource "azurerm_private_endpoint" "devopssa_blob" {
   tags = data.azurerm_subscription.current.tags
 }
 
+resource "azurerm_storage_container" "devopsbootstrap_container" {
+  name                  = "devopsbootstrap"
+  container_access_type = "private"
+  storage_account_id    = azurerm_storage_account.devopssa.id
+}
+
+resource "azurerm_storage_container" "prd_tools_container" {
+  name                  = "prdtools"
+  container_access_type = "private"
+  storage_account_id    = azurerm_storage_account.devopssa.id
+}
+
 resource "azurerm_storage_container" "stg_container" {
   name                  = "stg"
   container_access_type = "private"
@@ -54,7 +71,7 @@ resource "azurerm_storage_container" "qa_container" {
 
 
 resource "azurerm_role_assignment" "blob_data_contributor_initial_user_admin" {
-  principal_id         = "eac1c79d-59e6-44b2-80b1-12e829f54017"
+  principal_id         = "209a972e-25ff-44c7-b631-261a594409f8"
   role_definition_name = "Storage Blob Data Contributor"
   scope                = azurerm_storage_account.devopssa.id
 }

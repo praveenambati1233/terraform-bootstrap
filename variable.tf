@@ -5,7 +5,7 @@ variable "location" {
 }
 
 variable "project_code" {
-  default = "azlz"
+  default = "ccpt"
 }
 
 variable "environment" {
